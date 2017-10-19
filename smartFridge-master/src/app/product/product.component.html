@@ -1,0 +1,246 @@
+<html xmlns="http://www.w3.org/1999/xhtml" data-ng-app="app">
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.js"></script>
+
+<div class="container">
+  <div class="row">
+    <div class="productTable">
+      <!--<h4>Bootstrap Snipp for Datatable</h4>-->
+      <div class="table-responsive">
+        <table id="mytable" class="table table-bordred table-striped table-hover">
+          <thead>
+          <th>#</th>
+          <th style="padding-left: 10px">Name</th>
+          <th>Price</th>
+          <th>InUse</th>
+          <th>Created</th>
+          <th>Last Update</th>
+          <th>Edit</th>
+          <th>Delete</th>
+          <th  style="text-align: center">
+            <p data-placement="top" data-toggle="tooltip" title="Add new product"><button class="btn btn-default btn-xs" data-title="Add" data-toggle="modal" data-target="#addProduct" (click)="clearData()"><span class="glyphicon glyphicon-plus"></span></button></p>
+          </th>
+          </thead>
+
+          <tbody *ngFor="let item of items | async; let i = index" data-id="1" data-parent="">
+          <tr>
+            <td>{{i+1}}</td>
+            <td class="accordion-toggle" data-toggle="collapse" [attr.data-target]="'#'+item.ProductName">{{item.ProductName}}</td>
+            <td class="accordion-toggle" data-toggle="collapse" [attr.data-target]="'#'+item.ProductName">{{item.Price}}</td>
+            <td class="accordion-toggle" data-toggle="collapse" [attr.data-target]="'#'+item.ProductName">{{item.InUse}}</td>
+            <td class="accordion-toggle" data-toggle="collapse" [attr.data-target]="'#'+item.ProductName">{{item.CreatedDate}}</td>
+            <td class="accordion-toggle" data-toggle="collapse" [attr.data-target]="'#'+item.ProductName">{{item.LastUpdate}}</td>
+            <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#editProduct" (click)="keyToEdit(item.$key,item)"><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+            <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#deleteProduct" (click)="keyToDelete(item.$key)"><span class="glyphicon glyphicon-trash"></span></button></p></td>
+          </tr>
+          <tr  id="{{item.ProductName}}" class="collapse hidden-table">
+            <td></td>
+            <td colspan="6">
+              <div class="lotTable">
+                <table class="table-bordred">
+                  <thead>
+                    <th>#</th>
+                    <th>Expiry Date</th>
+                    <th>Amount</th>
+                    <th></th>
+                    <th  style="text-align: center">
+                      <p data-placement="top" data-toggle="tooltip" title="Add new lot"><button class="btn btn-default btn-xs" data-title="Add" data-toggle="modal" data-target="#addLot" (click)="clearLotData() ; keyToAddLot(item.$key,item) "><span class="glyphicon glyphicon-plus"></span></button></p>
+                    </th>
+                  </thead>
+                  <tbody *ngFor="let lot of lots | async">
+                    <tr *ngIf="item.$key==lot.productID">
+                      <td></td>
+                      <td>{{lot.expiryDate}}</td>
+                      <td>{{lot.amount}}</td>
+                      <td><p data-placement="top" data-toggle="tooltip" title="QR code"><button class="btn btn-xs" data-title="QR code" data-toggle="modal" data-target="#qrcode" (click)="qenerateQRcode(lot)"><span class="glyphicon glyphicon-qrcode"></span></button></p></td>
+                      <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-xs" data-title="Delete" data-toggle="modal" data-target="#deleteLot" (click)="keyToDeleteLot(lot.$key)"><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Edit Product-->
+<div class="modal fade" id="editProduct" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+        <h4 class="modal-title custom_align" id="EditHeading">Edit Product Detail</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="editName">Name</label>
+          <input id="editName" class="form-control " type="text" [(ngModel)]="model.ProductName" disabled>
+        </div>
+        <div class="form-group">
+          <label for="editPrice">Price</label>
+          <input id="editPrice" class="form-control " type="number" min="0" step="1"  [(ngModel)]="model.Price">
+          <p class="inform">Must be a number and not negative</p>
+        </div>
+        <div class="form-group">
+          <label for="inUse">In use status</label>
+          <input id="inUse" class="toggle inUseInput form-control" type="checkbox" data-toggle="toggle" data-on="Enabled" data-off="Disabled" [checked]="model.InUse" [(ngModel)]="model.InUse">
+        </div>
+      </div>
+      <div class="modal-footer ">
+        <button type="button" class="btn btn-warning btn-lg" style="width: 100%;" data-dismiss="modal" (click)="updateItem()"  [disabled]="isEmpty() || isNotPositivePrice()"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<!--Delete Product-->
+<div class="modal fade" id="deleteProduct" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+        <h4 class="modal-title custom_align" id="DeleteHeading">Delete this entry</h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record?</div>
+
+      </div>
+      <div class="modal-footer ">
+        <button type="button" class="btn btn-success" data-dismiss="modal" (click)="deleteItem()"><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<!--Add Product-->
+<div class="modal fade" id="addProduct" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+        <h4 class="modal-title custom_align" id="AddHeading">Add new product</h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="form-group">
+          <label for="addName">Name</label>
+          <input id="addName" class="form-control " type="text" [(ngModel)]="model.ProductName">
+        </div>
+        <div class="form-group">
+          <label for="addPrice">Price</label>
+          <input id="addPrice" class="form-control " type="number" min="0" step="1" [(ngModel)]="model.Price">
+          <p class="inform">Must be a number and not negative</p>
+
+        </div>
+      </div>
+      <div class="modal-footer ">
+        <button type="button" class="btn btn-success" (click)="addItem()" ><span class="glyphicon glyphicon-ok-sign"></span> Add</button>
+        <!--style="width: 100%;"  [disabled]="isEmpty() || isNotPositivePrice()"-->
+        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<!--Add Lot-->
+<div class="modal fade" id="addLot" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+        <h4 class="modal-title custom_align" id="AddLotHeading">Add new lot</h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="form-group">
+          <label for="expiryDate" class="col-2 col-form-label">Expiry Date</label>
+          <div class="col-10">
+            <input class="form-control" type="date" value="" min="{{getCurrentDate()}}" id="expiryDate" [(ngModel)]="date">
+          </div>
+        </div>
+
+        <div layout-gt-xs="row">
+        <div class="form-group">
+          <label for="amount">Amount</label>
+          <input id="amount" class="form-control" type="number" min="0" step="1" max="1000" [(ngModel)]="lotModel.amount">
+        </div>
+        </div>
+      </div>
+      <div class="modal-footer ">
+        <button type="button" class="btn btn-success" (click)="updateLot()"><span class="glyphicon glyphicon-ok-sign"></span> Add</button>
+        <!-- style="width: 100%;" data-dismiss="modal" [disabled]="amountEmpty() || isNotPositiveAmount()"-->
+        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+      </div>
+    </div>
+
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+
+<!--Delete Lot-->
+<div class="modal fade" id="deleteLot" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+        <h4 class="modal-title custom_align" id="DeleteLotHeading">Delete this entry</h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record?</div>
+
+      </div>
+      <div class="modal-footer ">
+        <button type="button" class="btn btn-success" data-dismiss="modal" (click)="deleteLot()"><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<!--QR code-->
+<div class="modal fade" id="qrcode" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+        <h4 class="modal-title custom_align" id="qrcodeHeading">QR Code</h4>
+      </div>
+      <div class="modal-body qrcode">
+
+        <div id="print-section">
+        <!--your html stuff that you want to print-->
+        <ngx-qrcode [qrc-element-type]="elementType" [qrc-value]="value"></ngx-qrcode>
+        <p>{{_value2}}</p>
+        </div>
+
+      </div>
+      <div class="modal-footer ">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="print()"><span class="glyphicon glyphicon-print"></span> Print QR Code</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>

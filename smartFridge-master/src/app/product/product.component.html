@@ -232,17 +232,15 @@
         <div id="print-section">
         <!--your html stuff that you want to print-->
           <!--<ngx-qrcode [qrc-element-type]="elementType" [qrc-value]="value"></ngx-qrcode>
-         <p>{{_value2}}</p>-->
+         <p>{{_value2}}</p>
 
-          <!--    <tbody *ngFor="let  item of _listOfItemInLot" >
+          <tbody *ngFor="let  item of listOfItemInLot" >
 
 
-         -  <ngx-qrcode [qrc-element-type]="elementType" [qrc-value]="item.qrCode"></ngx-qrcode>
 
-              <p>{{item.HumanReadableCode}}</p>
-              </tbody>
+          </tbody>
+          -->
 
-           -->
 
           <tbody *ngFor="let  item of createRange(lotModel.StartAt,lotModel.amount)" >
 

@@ -312,18 +312,10 @@ export class ProductComponent {
 
     qenerateQRcode(lot: Lot): Lot {
     this._lotModel = Object.assign({}, lot);
-      //let a = new Lot();
-    // for(let index=lot.StartAt;index<=lot.StartAt+lot.amount;) {
-    //   a.qrCode = lot.qrCode+','+index;
-    //   a.HumanReadableCode = lot.expiryDate+','+index
-    //   this._listOfItemInLot.push(a)
-    // }
-    // this._value = this._lotModel.qrCode;
-    // this._value2 = this._lotModel.expiryDate;
 
-    //return this._listOfItemInLot;
-      console.log(this._lotModel)
+
       return this._lotModel
+
   }
 
 
@@ -351,8 +343,9 @@ export class ProductComponent {
     var items: number[] = [];
     var Max = startNum+amountNum;
 
-    for(let i = startNum; i <= Max; i++){
-      items.push(i);
+    for(let i = startNum; i < Max; i++){
+      let HexaNumber = i.toString(16);
+      items.push(HexaNumber);
     }
     return items;
   }

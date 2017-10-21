@@ -10,5 +10,5 @@ export class Lot {
 
   // RuR write this line
   StartAt: number;
-  HumanReadableCode: string;
+  
 }

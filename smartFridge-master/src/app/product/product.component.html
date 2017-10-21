@@ -55,6 +55,7 @@
                       <td>{{lot.expiryDate}}</td>
                       <td>{{lot.amount}}</td>
                       <td><p data-placement="top" data-toggle="tooltip" title="QR code"><button class="btn btn-xs" data-title="QR code" data-toggle="modal" data-target="#qrcode" (click)="qenerateQRcode(lot)"><span class="glyphicon glyphicon-qrcode"></span></button></p></td>
+
                       <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-xs" data-title="Delete" data-toggle="modal" data-target="#deleteLot" (click)="keyToDeleteLot(lot.$key)"><span class="glyphicon glyphicon-trash"></span></button></p></td>
                     </tr>
                   </tbody>
@@ -230,17 +231,39 @@
 
         <div id="print-section">
         <!--your html stuff that you want to print-->
-        <ngx-qrcode [qrc-element-type]="elementType" [qrc-value]="value"></ngx-qrcode>
-        <p>{{_value2}}</p>
-        </div>
+          <!--<ngx-qrcode [qrc-element-type]="elementType" [qrc-value]="value"></ngx-qrcode>
+         <p>{{_value2}}</p>-->
+
+          <!--    <tbody *ngFor="let  item of _listOfItemInLot" >
+
+
+         -  <ngx-qrcode [qrc-element-type]="elementType" [qrc-value]="item.qrCode"></ngx-qrcode>
+
+              <p>{{item.HumanReadableCode}}</p>
+              </tbody>
+
+           -->
+
+          <tbody *ngFor="let  item of createRange(lotModel.StartAt,lotModel.amount)" >
+
+          <tr>
+            <td>  <ngx-qrcode [qrc-element-type]="elementType" [qrc-value]="lotModel.qrCode+','+item"></ngx-qrcode> </td>
+          </tr>
+          <tr>
+            <td> {{lotModel.qrCode+','+item}}</td>
+          </tr>
+
+
+          </tbody>
+         </div>
 
       </div>
       <div class="modal-footer ">
-        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="print()"><span class="glyphicon glyphicon-print"></span> Print QR Code</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
-      </div>
-    </div>
-    <!-- /.modal-content -->
+           <button type="button" class="btn btn-default" data-dismiss="modal" (click)="print()"><span class="glyphicon glyphicon-print"></span> Print QR Code</button>
+           <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+         </div>
+       </div>
+       <!-- /.modal-content -->
   </div>
   <!-- /.modal-dialog -->
 </div>

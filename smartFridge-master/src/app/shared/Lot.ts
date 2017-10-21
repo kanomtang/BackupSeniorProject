@@ -7,4 +7,8 @@ export class Lot {
   qrCode: string;
   amount: number;
   expiryDate: string;
+
+  // RuR write this line
+  StartAt: number;
+  HumanReadableCode: string;
 }

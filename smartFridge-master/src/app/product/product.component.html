@@ -232,24 +232,18 @@
         <div  id="print-section">
         <!--your html stuff that you want to print-->
 
+          <!-- -->
 
+        <div class="col-md-4" *ngFor="let  item of createRange(lotModel.StartAt,lotModel.amount)">
 
-            <!-- --> <tbody *ngFor="let  item of createRange(lotModel.StartAt,lotModel.amount)" >
-
-                               <tr>
-                                 <td>  <ngx-qrcode [qrc-element-type]="elementType" [qrc-value]="lotModel.qrCode+','+item"></ngx-qrcode> </td>
-                               </tr>
-                               <tr>
-                                 <td> {{lotModel.expiryDate+','+item}}</td>
-                               </tr>
 
                 <ngx-qrcode [qrc-element-type]="elementType" [qrc-value]="lotModel.qrCode+','+item"></ngx-qrcode>
 
 
                {{lotModel.expiryDate+','+item}}
 
+        </div>
 
-            </tbody>
 
 
           <!--

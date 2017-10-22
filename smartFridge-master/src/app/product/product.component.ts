@@ -29,9 +29,7 @@ export class ProductComponent {
   private subscription: Subscription;
 
 
-  // pk test print
-  private _listOfItemInLot: Lot[]=[];
-  private _lotForPrintQRcode = new Lot();
+
   constructor(private af: AngularFireDatabase) {
     this._items = af.list('/ProductInfo');
     console.log(this._items);
@@ -501,19 +499,4 @@ export class ProductComponent {
   }
 
 
-  get listOfItemInLot(): Lot[] {
-    return this._listOfItemInLot;
-  }
-
-  set listOfItemInLot(value: Lot[]) {
-    this._listOfItemInLot = value;
-  }
-
-  get lotForPrintQRcode(): Lot {
-    return this._lotForPrintQRcode;
-  }
-
-  set lotForPrintQRcode(value: Lot) {
-    this._lotForPrintQRcode = value;
-  }
 }

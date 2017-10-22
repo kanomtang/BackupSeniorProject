@@ -350,6 +350,7 @@ export class ProductComponent {
     return items;
   }
 
+
   getCurrentDate(): string {
     this._datetime = this._currentDate.getFullYear() + '-';
     if (this._currentDate.getMonth() + 1 < 10) {

@@ -227,41 +227,54 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
         <h4 class="modal-title custom_align" id="qrcodeHeading">QR Code</h4>
       </div>
-      <div class="modal-body qrcode">
+      <div class="modal-body qrcode ">
 
-        <div id="print-section">
+        <div  id="print-section">
         <!--your html stuff that you want to print-->
-          <!--<ngx-qrcode [qrc-element-type]="elementType" [qrc-value]="value"></ngx-qrcode>
-         <p>{{_value2}}</p>
-
-          <tbody *ngFor="let  item of listOfItemInLot" >
 
 
 
-          </tbody>
+            <!-- --> <tbody *ngFor="let  item of createRange(lotModel.StartAt,lotModel.amount)" >
+
+                               <tr>
+                                 <td>  <ngx-qrcode [qrc-element-type]="elementType" [qrc-value]="lotModel.qrCode+','+item"></ngx-qrcode> </td>
+                               </tr>
+                               <tr>
+                                 <td> {{lotModel.expiryDate+','+item}}</td>
+                               </tr>
+
+                <ngx-qrcode [qrc-element-type]="elementType" [qrc-value]="lotModel.qrCode+','+item"></ngx-qrcode>
+
+
+               {{lotModel.expiryDate+','+item}}
+
+
+            </tbody>
+
+
+          <!--
+                    <tbody *ngFor="let  item of createRange(lotModel.StartAt,lotModel.amount)" >
+                <!--
+                                       <tr>
+                                         <td>  <ngx-qrcode [qrc-element-type]="elementType" [qrc-value]="lotModel.qrCode+','+item"></ngx-qrcode> </td>
+                                       </tr>
+                                       <tr>
+                                         <td> {{lotModel.expiryDate+','+item}}</td>
+                                       </tr>
+
+
+                   </tbody>
+
           -->
+                  </div>
 
-
-          <tbody *ngFor="let  item of createRange(lotModel.StartAt,lotModel.amount)" >
-
-          <tr>
-            <td>  <ngx-qrcode [qrc-element-type]="elementType" [qrc-value]="lotModel.qrCode+','+item"></ngx-qrcode> </td>
-          </tr>
-          <tr>
-            <td> {{lotModel.qrCode+','+item}}</td>
-          </tr>
-
-
-          </tbody>
-         </div>
-
-      </div>
-      <div class="modal-footer ">
-           <button type="button" class="btn btn-default" data-dismiss="modal" (click)="print()"><span class="glyphicon glyphicon-print"></span> Print QR Code</button>
-           <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
-         </div>
-       </div>
-       <!-- /.modal-content -->
+               </div>
+               <div class="modal-footer ">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="print()"><span class="glyphicon glyphicon-print"></span> Print QR Code</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                  </div>
+                </div>
+                <!-- /.modal-content -->
   </div>
   <!-- /.modal-dialog -->
 </div>

@@ -8,7 +8,6 @@ export class Lot {
   amount: number;
   expiryDate: string;
 
-  // RuR write this line
-  StartAt: number;
+
 
 }

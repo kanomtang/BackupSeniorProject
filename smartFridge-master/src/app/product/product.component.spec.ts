@@ -111,17 +111,21 @@ describe('ProductComponent', () => {
 
 
   });
-  //
-  // it('should create the qr code', () =>{
-  //   let Lotparam = new Lot();
-  //   Lotparam.productID = '-KqnYplgBJ7HB9gAozYv';
-  //   Lotparam.expiryDate = '23/9/2017';
-  //   Lotparam.lotID= 'Kitkat,25,23/9/2017' ;
-  //   Lotparam.amount= 100 ;
-  //
-  //   expect(component.qenerateQRcode(Lotparam)).toBe('Kitkat,25,23/9/2017');
-  // });
-  //
+
+  it('should create the qr code', () =>{
+    let Lotparam = new Lot();
+    Lotparam.productID = '-KqnYplgBJ7HB9gAozYv';
+    Lotparam.expiryDate = '23/9/2017';
+    Lotparam.amount= 100 ;
+
+    let dummy = component.qenerateQRcode(Lotparam);
+
+    expect(dummy.amount).toBe(100);
+    expect(dummy.productID).toBe('-KqnYplgBJ7HB9gAozYv');
+    expect(dummy.expiryDate).toBe('23/9/2017');
+    //expect(component.qenerateQRcode(Lotparam)).toBe('Kitkat,25,23/9/2017');
+  });
+
   it('should clear the data of lot model', () => {
 
     component.clearLotData();

@@ -84,46 +84,33 @@ describe('ProductComponent', () => {
   });
 
   it('should add new lot', () => {
-    let Mocklot = new Lot();
-    Mocklot.productID = '-KqnYplgBJ7HB9gAozYv';
-    Mocklot.amount = 100 ;
-    //Mocklot. = '20/07/2018';
-    Mocklot.qrCode = 'Kitkat,25,';
+
+
+
+    component.lotModel.amount=100;
+    component.lotModel.qrCode = 'Kitkat,25,';
     component.date = '2018-07-20'
-    component.lotModel = Mocklot;
+    // component.lotModel = Mocklot;
 
 
     let result =component.addLot();
 
-    //expect(component.addLot()).not.toBe(null);
-    expect(result.amount).toBe(100);
-    expect(result.productID).toBe('-KqnYplgBJ7HB9gAozYv');
-    expect(result.expiryDate).toBe('20/7/2018');
-    // lotObject = component.keyofnewproduct;
-    // expect(lotObject).toBe('-Kv_xPBvg_YpcWaYZjaF');
+    expect(result).toBeNull();
+
   });
 
 
 
-  // it('should update lot', () => {
-  //   let Mocklot = new Lot();
-  //   Mocklot.productID = '-KqnYplgBJ7HB9gAozYv';
-  //   Mocklot.amount = 100 ;
-  //   //Mocklot. = '20/07/2018';
-  //   Mocklot.qrCode = 'Kitkat,25,';
-  //   component.date = '2018-07-20'
-  //   component.lotModel = Mocklot;
-  //
-  //
-  //   let result =component.updateLot();
-  //
-  //   //expect(component.addLot()).not.toBe(null);
-  //   expect(result.amount).toBe(200);
-  //   expect(result.productID).toBe('-KqnYplgBJ7HB9gAozYv');
-  //   expect(result.expiryDate).toBe('20/7/2018');
-  //
-  //
-  // });
+  it('should update lot', () => {
+    component.lotModel.amount=100;
+    component.lotModel.qrCode = 'Kitkat,25,';
+    component.date = '2018-07-20'
+
+    let result =component.updateLot();
+    expect(result).toBeNull();
+
+
+  });
   //
   // it('should create the qr code', () =>{
   //   let Lotparam = new Lot();
@@ -135,46 +122,58 @@ describe('ProductComponent', () => {
   //   expect(component.qenerateQRcode(Lotparam)).toBe('Kitkat,25,23/9/2017');
   // });
   //
-  // it('should clear the data of lot model', () => {
-  //
-  //   component.clearLotData();
-  //   expect(component.lotModel.amount).toBeUndefined();
-  //   expect(component.lotModel.lotID).toBeUndefined();
-  //   expect(component.lotModel.expiryDate).toBeUndefined();
-  //   expect(component.lotModel.productID).toBeUndefined();
-  // });
-  //
-  // it('should delete lot ', () =>{
-  //   //component.keyToDeleteLot('-KujRF6zr-3AtpNnwn0K');
-  //   component.deleteLotKey='-KqvtS_tBUeNFppzUa-m';
-  //   expect(component.deleteLot()).toBe(true);
-  //
-  //
-  // });
-  //
-  // it('should get the key of delete product', () => {
-  //   component.keyToDeleteLot('-KujRF6zr-3AtpNnwn0K');
-  //   component.deleteLotKey = '-KujRF6zr-3AtpNnwn0K' ;
-  //   expect(component.keyToDeleteLot('-KujRF6zr-3AtpNnwn0K')).toBe(component.deleteLotKey);
-  // })
-  // it('should update the lot ', () =>{
-  //
-  //
-  //   let Mocklot = new Lot();
-  //   Mocklot.amount = 170 ;
-  //   Mocklot.expiryDate = '3/10/2019';
-  //   Mocklot.lotID = 'Kitkat,25,';
-  //   component.lotModel = Mocklot;
-  //
-  //
-  //   //component.updateLot();
-  //
-  //   expect(component.lotModel.amount).toBe(170);
-  //   expect(component.lotModel.lotID).toBe('Kitkat,25,');
-  //   expect(component.lotModel.expiryDate).toBe('3/10/2019');
-  //
-  // });
-  //
+  it('should clear the data of lot model', () => {
+
+    component.clearLotData();
+    expect(component.lotModel.amount).toBeUndefined();
+    expect(component.lotModel.qrCode).toBeUndefined();
+    expect(component.lotModel.expiryDate).toBeUndefined();
+    expect(component.lotModel.productID).toBeUndefined();
+  });
+
+  it('should delete lot ', () =>{
+    //component.keyToDeleteLot('-KujRF6zr-3AtpNnwn0K');
+    component.deleteLotKey='-KqvtS_tBUeNFppzUa-m';
+    expect(component.deleteLot()).toBe(true);
+
+
+  });
+
+  it('should get the key of delete product', () => {
+    component.keyToDeleteLot('-KujRF6zr-3AtpNnwn0K');
+    component.deleteLotKey = '-KujRF6zr-3AtpNnwn0K' ;
+    expect(component.keyToDeleteLot('-KujRF6zr-3AtpNnwn0K')).toBe(component.deleteLotKey);
+  })
+
+  it('should create array range',() =>{
+    let testCreateRange =component.createRange(16);
+    let testArray = ['1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'];
+    // expect(testCreateRange[0]).toBe('1');
+    // expect(testCreateRange[1]).toBe('2');
+    // expect(testCreateRange[2]).toBe('3');
+    // expect(testCreateRange[3]).toBe('4');
+    // expect(testCreateRange[4]).toBe('5');
+    // expect(testCreateRange[5]).toBe('6');
+    // expect(testCreateRange[6]).toBe('7');
+    // expect(testCreateRange[7]).toBe('8');
+    // expect(testCreateRange[8]).toBe('9');
+    // expect(testCreateRange[9]).toBe('a');
+    // expect(testCreateRange[10]).toBe('b');
+    // expect(testCreateRange[11]).toBe('c');
+    // expect(testCreateRange[12]).toBe('d');
+    // expect(testCreateRange[13]).toBe('e');
+    // expect(testCreateRange[14]).toBe('f');
+
+    for(let i = 0;i<15;i++){
+      expect(testCreateRange[i]).toBe(testArray[i]);
+    }
+
+
+
+
+
+  })
+
   // it('should print the qr code', () => {
   //
   //   let mockLotModel = new Lot();

@@ -79,7 +79,7 @@ describe('ProductComponent', () => {
     let Mocklot = new Lot();
     Mocklot.amount = -100 ;
     component.lotModel = Mocklot;
-    expect(component.lotModel.amount).toBeLessThan(1);
+    expect(component.isNotPositiveAmount()).toBeLessThan(1);
 
   });
 
@@ -157,7 +157,7 @@ describe('ProductComponent', () => {
     for(let i = 0;i<15;i++){
       expect(testCreateRange[i]).toBe(testArray[i]);
     }
-    
+
 
   })
 

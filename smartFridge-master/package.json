@@ -25,6 +25,8 @@
     "core-js": "^2.4.1",
     "firebase": "3.9.0",
     "install": "0.10.1",
+    "moment": "^2.19.3",
+    "ng2-googlechart": "^2.3.0",
     "npm": "5.5.1",
     "promise-polyfill": "6.0.2",
     "rxjs": "^5.1.0",

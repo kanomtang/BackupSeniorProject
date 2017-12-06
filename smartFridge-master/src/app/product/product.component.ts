@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, Injectable} from '@angular/core';
 import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2/database';
 import {ProductItem} from '../shared/ProductItem';
 import {Lot} from '../shared/Lot';
@@ -9,6 +9,7 @@ import {Subscription} from 'rxjs/Subscription';
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css']
 })
+@Injectable()
 export class ProductComponent {
   @Input() private _Productanditem: ProductItem;
   private _elementType: 'url' | 'canvas' | 'img' = 'url';
@@ -27,7 +28,6 @@ export class ProductComponent {
   private _num: number;
   private _keyofnewproduct: any;
   private subscription: Subscription;
-
 
 
   constructor(private af: AngularFireDatabase) {
@@ -56,7 +56,7 @@ export class ProductComponent {
     try {
       const pathFirebase = 'ProductInfo/' + this._deleteKey;
       this.af.object(pathFirebase)
-        .remove()
+        .remove();
       // .then(() => alert('Successful for deleting product'));
       return true;
     } catch (err) {
@@ -99,24 +99,24 @@ export class ProductComponent {
   }
 
   addItem(): ProductItem {
-    //validate the correctness before adding item
+    // validate the correctness before adding item
     let notExist = false;
     if (this.isEmpty()) {
-      console.log("empty field");
-      alert("Please don't leave the field blank");
+      console.log('empty field');
+      alert('Please do not leave the field blank');
       return null;
     } else if (this.isNotPositivePrice()) {
-      alert("Price must be a positive number");
+      alert('Price must be a positive number');
       return null;
     } else {
       this.subscription = this._items.subscribe(items => {
         // items is an array
         items.forEach(item => {
-          //console.log('Item:', item);
-          if (this._model.ProductName == item.ProductName) {
+          // console.log('Item:', item);
+          if (this._model.ProductName === item.ProductName) {
             notExist = false;
             console.log('name:', item.ProductName);
-            alert("This name is already exist");
+            alert('This name is already exist');
           }
         });
       });
@@ -165,7 +165,7 @@ export class ProductComponent {
     return this._model;
   }
 
-  //Progress2
+  // Progress2
 
   getLotList(): FirebaseListObservable<Lot[]> {
     return this._lots;
@@ -194,31 +194,7 @@ export class ProductComponent {
     return keyparam;
   }
 
-  // addLot(): Lot {
-  //   try {
-  //     this._num = Number(this._date.slice(8, 10));
-  //     this._datetime = this._num + '/';
-  //     this._num = Number(this._date.slice(5, 7));
-  //     this._datetime = this._datetime + this._num + '/';
-  //     this._num = Number(this._date.slice(0, 4));
-  //     this._datetime = this._datetime + this._num;
-  //     this._lotModel.expiryDate = this._datetime;
-  //     this._lots.push({
-  //       'productID': this._lotModel.productID,
-  //       'qrCode': this._lotModel.qrCode + this._datetime,
-  //       'expiryDate': this._lotModel.expiryDate,
-  //       'amount': this._lotModel.amount
-  //     })
-  //       .then(
-  //         () => alert('Successful for adding new lot')
-  //       );
-  //     this.clearLotData();
-  //     return this._lotModel;
-  //   } catch (err) {
-  //     console.log(err.message);
-  //     return null;
-  //   }
-  // }
+
   addLot(): boolean {
     try {
       this._num = Number(this._date.slice(8, 10));
@@ -245,66 +221,16 @@ export class ProductComponent {
     }
   }
 
-  // updateLot(): Lot {
-  //   let isExist = false;
-  //   let lotKey = '';
-  //   let lotAmount = 0;
-  //   if (this.amountEmpty()) {
-  //     console.log("empty field");
-  //     alert("Please don't leave the field blank");
-  //     return null;
-  //   } else if (this.isNotPositiveAmount()) {
-  //     alert("Amount must be a positive number");
-  //     return null;
-  //   } else {
-  //     this._num = Number(this._date.slice(8, 10));
-  //     this._datetime = this._num + '/';
-  //     this._num = Number(this._date.slice(5, 7));
-  //     this._datetime = this._datetime + this._num + '/';
-  //     this._num = Number(this._date.slice(0, 4));
-  //     this._datetime = this._datetime + this._num;
-  //     this.subscription = this._lots.subscribe(lots => {
-  //       // items is an array
-  //       lots.forEach(lot => {
-  //         //console.log('Lot:', lot);
-  //         if (this._datetime == lot.expiryDate) {
-  //           isExist = true;
-  //           lotKey = lot.$key;
-  //           lotAmount = lot.amount + this._lotModel.amount;
-  //           console.log('key:', lotKey);
-  //         }
-  //       });
-  //     });
-  //     this.subscription.unsubscribe();
-  //
-  //     if (isExist) {
-  //       this._lotModel.amount = lotAmount;
-  //       try {
-  //         const pathFirebase = 'Lots/' + lotKey;
-  //         this.af.object(pathFirebase)
-  //           .update({'amount': this._lotModel.amount})
-  //           .then(() => alert('Successful for Updating Lot'));
-  //         this.clearLotData();
-  //       } catch (err) {
-  //         console.log(err.message);
-  //         return this._lotModel;
-  //       }
-  //     } else {
-  //       return this.addLot();
-  //     }
-  //   }
-  // }
-
   updateLot(): boolean {
     let isExist = false;
     let lotKey = '';
     let lotAmount = 0;
     if (this.amountEmpty()) {
-      console.log("empty field");
-      alert("Please don't leave the field blank");
+      console.log('empty field');
+      alert('Please do not leave the field blank');
       return null;
     } else if (this.isNotPositiveAmount()) {
-      alert("Amount must be a positive number");
+      alert('Amount must be a positive number');
       return null;
     } else {
       this._num = Number(this._date.slice(8, 10));
@@ -316,8 +242,8 @@ export class ProductComponent {
       this.subscription = this._lots.subscribe(lots => {
         // items is an array
         lots.forEach(lot => {
-          //console.log('Lot:', lot);
-          if (this._datetime == lot.expiryDate) {
+          // console.log('Lot:', lot);
+          if (this._datetime === lot.expiryDate) {
             isExist = true;
             lotKey = lot.$key;
             lotAmount = lot.amount + this._lotModel.amount;
@@ -359,7 +285,7 @@ export class ProductComponent {
     try {
       const pathFirebase = 'Lots/' + this._deleteLotKey;
       this.af.object(pathFirebase)
-        .remove()
+        .remove();
       // .then(() => alert('Successful for deleting lot'));
       return true;
     } catch (err) {
@@ -385,14 +311,13 @@ export class ProductComponent {
   //   return this._value;
   // }
 
-    qenerateQRcode(lot: Lot): Lot {
+  qenerateQRcode(lot: Lot): Lot {
     this._lotModel = Object.assign({}, lot);
 
 
-      return this._lotModel
+    return this._lotModel;
 
   }
-
 
 
   print(): boolean {
@@ -428,12 +353,13 @@ export class ProductComponent {
     popupWin.document.close();
     return true;
   }
-  createRange(amountNum){
-    var items: string[] = [];
-    var Max = amountNum;
 
-    for(let i = 1; i < Max; i++){
-      let HexaNumber = i.toString(16);
+  createRange(amountNum) {
+    const items: string[] = [];
+    const Max = amountNum;
+
+    for (let i = 1; i < Max; i++) {
+      const HexaNumber = i.toString(16);
       items.push(HexaNumber);
     }
     return items;

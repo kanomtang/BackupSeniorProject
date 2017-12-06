@@ -113,9 +113,9 @@ export class UserComponentComponent {
   }
 
   isEmpty(): boolean {
-    if(this.model.customerFName && this.model.customerLName && this.model.city && this.model.province){
+    if (this.model.customerFName && this.model.customerLName && this.model.city && this.model.province) {
       return false;
-    }else{
+    }else {
       return true;
     }
   }

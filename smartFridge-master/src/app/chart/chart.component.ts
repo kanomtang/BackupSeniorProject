@@ -1,3 +1,4 @@
+
 import {Component} from '@angular/core';
 import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2/database';
 import {UsageItem} from '../shared/UsageItem';
@@ -14,6 +15,7 @@ export class ChartComponent {
 
   data =[];
   labels = [];
+
 
   columnTypes = [{
     'type': 'string',
@@ -40,12 +42,15 @@ export class ChartComponent {
     }
   };
 
-   OriginalArr: UsageItem[] = [];
-
-   DataArr: UsageItem[] = [];
-   LabelArr: UsageItem[] = [];
-   Mockarr:any[] = [];
+  OriginalArr: UsageItem[] = [];
+  topicValue =0 ;
+  DataArr: UsageItem[] = [];
+  LabelArr: UsageItem[] = [];
+  Mockarr:any[] = [];
   UsageItem: FirebaseListObservable<any[]>;
+
+
+
 
   constructor(private af: AngularFireDatabase) {
 
@@ -53,6 +58,8 @@ export class ChartComponent {
     this.UsageItem.subscribe(snapshot => {
       this.Mockarr = snapshot;
     })
+
+
 
 
 
@@ -104,7 +111,15 @@ export class ChartComponent {
         pk.push(newItem);
       }
     }
-    this.OriginalArr = pk;
+    this.OriginalArr = pk.sort((n1,n2) => {
+      if(n1.AmountofUsageItem > n2.AmountofUsageItem){
+        return -1;
+      }
+      if (n2.AmountofUsageItem > n1.AmountofUsageItem){
+        return 1;
+      }
+      return 0 ;
+    });
     return this.OriginalArr;
   }
 
@@ -135,5 +150,20 @@ export class ChartComponent {
     }
     this.DataArr = resultArr;
     return this.DataArr ;
+  }
+  ConsumptionRate(){
+    this.topicValue = 1;
+    this.assignLabel();
+    this.assignDataAmount();
+    this.options.hAxis.title = 'Consumption Rate';
+    this.columnTypes[1].value = 'Consume item per year';
+  }
+  Shelflife() {
+    this.topicValue = 2;
+    this.assignLabel();
+    this.assignDataShelflife();
+
+    this.options.hAxis.title = 'Shelf Life';
+    this.columnTypes[1].value = 'Item usage per minute';
   }
 }
